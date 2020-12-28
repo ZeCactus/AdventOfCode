@@ -1,3 +1,4 @@
+#TODO implement map
 import operator
 import copy
 import time
