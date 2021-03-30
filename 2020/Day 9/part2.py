@@ -1,33 +1,51 @@
-import copy
+file = open("input.txt", 'r')
+preamble = 25
 numbers = []
-with open("test.txt", "r") as file:
-    for line in file:
-        numbers.append(int(line))
-numbers.sort()
-device = numbers[-1]+3
-numbers.append(device)
-combinations = [([0], copy.deepcopy(numbers))]
+for i in range(0, preamble):
+    numbers.append(int(file.readline()))
+i = 0
+target = 0
 while True:
+    newnumber = int(file.readline())
     flag = False
-    for combination in combinations:
-        chain = combination[0]
-        if chain[-1] == device:
-            continue
-        flag = True
-        current = chain[-1]
-        arr = combination[1]
-        for i in range(0, len(arr)):
-            diff = arr[i] - current
-            if diff not in range(0, 4):
-                break
-            else:
-                arrcopy = copy.deepcopy(arr)
-                chaincopy = copy.deepcopy(chain)
-                chaincopy.append(arrcopy[i])
-                arrcopy = arrcopy[i:]
-                i = 0
-                combinations.append(copy.deepcopy((chaincopy, arrcopy)))
+    for j in range(0, len(numbers)):
+        for k in range(j+1, len(numbers)):
+            if numbers[j] + numbers[k] == newnumber:
+                flag = True
     if flag == False:
+        target = newnumber
         break
-    print(combinations, "\n\n\n")
-print(combinations)
+    else:
+        numbers[i] = newnumber
+        i = i + 1
+        if i == preamble:
+            i = 0
+file.close()
+file = open("input.txt", 'r')
+numbers = []
+for line in file:
+    numbers.append(int(line))
+file.close()
+l = 0
+h = 0
+for low in range(0, len(numbers)):
+    for high in range(low + 1, len(numbers)):
+        result = 0
+        flag = False
+        for i in range(low, high+1):
+            result = result + numbers[i]
+            if result > target:
+                flag = True
+                break
+        if flag == True:
+            continue
+        if result == target:
+            min = numbers[low]
+            max = numbers[low]
+            for i in range(low, high + 1):
+                if numbers[i] < min:
+                    min = numbers[i]
+                if numbers[i] > max:
+                    max = numbers[i]
+            print(min + max)
+            break

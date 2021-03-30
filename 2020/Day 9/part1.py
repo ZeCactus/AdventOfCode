@@ -1,14 +1,21 @@
-numbers = [0]
-with open("input.txt", "r") as file:
-    for line in file:
-        numbers.append(int(line))
-numbers.sort()
-dif1 = 0
-dif3 = 1
-for i in range(1, len(numbers)):
-    dif = numbers[i] - numbers[i-1]
-    if dif == 1:
-        dif1 = dif1 + 1
-    if dif == 3:
-        dif3 = dif3 + 1
-print(dif1 * dif3)
+file = open("input.txt", 'r')
+preamble = 25
+numbers = []
+for i in range(0, preamble):
+    numbers.append(int(file.readline()))
+i = 0
+while True:
+    newnumber = int(file.readline())
+    flag = False
+    for j in range(0, len(numbers)):
+        for k in range(j+1, len(numbers)):
+            if numbers[j] + numbers[k] == newnumber:
+                flag = True
+    if flag == False:
+        print(newnumber)
+        break
+    else:
+        numbers[i] = newnumber
+        i = i + 1
+        if i == preamble:
+            i = 0
